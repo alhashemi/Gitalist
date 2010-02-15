@@ -4,6 +4,8 @@ use namespace::autoclean;
 
 extends 'Catalyst::View';
 
+use Pod::HtmlEasy;
+
 use HTML::Entities qw(encode_entities);
 
 sub process {
@@ -19,17 +21,20 @@ sub render {
 
     my $ret;
     if($lang) {
-	# $lang is set: mixed code and pod
+        # $lang is set: mixed code and pod
         $ret = eval {
 
         };
         warn $@ if $@;
     }
     else {
-	# pure pod (maybe?)
+        # pure pod (maybe?)
+	my $encoded = encode_entities($blob);
+	open my $fh, \$encoded;
+	$ret = Pod::HtmlEasy->new->pod2html($fh);
     }
 
-    return $ret || encode_entities($blob);
+    return encode_entities($ret);
 }
 
 __PACKAGE__->meta->make_immutable;
