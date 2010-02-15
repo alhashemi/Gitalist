@@ -34,7 +34,7 @@ sub render {
 	$ret = Pod::HtmlEasy->new->pod2html($fh);
     }
 
-    return encode_entities($ret);
+    return $ret;
 }
 
 __PACKAGE__->meta->make_immutable;
