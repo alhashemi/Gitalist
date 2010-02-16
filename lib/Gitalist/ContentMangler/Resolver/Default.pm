@@ -4,6 +4,9 @@ class Gitalist::ContentMangler::Resolver::Default with Gitalist::ContentMangler:
     method resolve ($data) {
         return unless $data->{filename};
         my $language = 'Perl' if $data->{filename} =~ /\.p[lm]$/i;
-        return (['SyntaxHighlight', {language => $language, css => $language}]);
+        my @list;
+        push(@list, ['Pod2Html', {}]) if $data->{filename} =~ /\.(pod|p[lm])$/i;
+        push(@list, ['SyntaxHighlight', {language => $language, css => $language}]) if $language;
+        return @list;
     }
 }

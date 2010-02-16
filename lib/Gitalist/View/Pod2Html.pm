@@ -31,6 +31,7 @@ sub render {
         # pure pod (maybe?)
 	my $encoded = encode_entities($blob);
 	open my $fh, \$encoded;
+	# doesn't seem to work. generates html but with no content.
 	$ret = Pod::HtmlEasy->new->pod2html($fh);
     }
 
